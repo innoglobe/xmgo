@@ -1,0 +1,253 @@
+basePath: /
+definitions:
+  entity.Company:
+    properties:
+      amount_of_employees:
+        type: integer
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      registered:
+        type: boolean
+      type:
+        $ref: '#/definitions/entity.CompanyType'
+      updated_at:
+        type: string
+    required:
+    - amount_of_employees
+    - name
+    - registered
+    - type
+    type: object
+  entity.CompanyType:
+    enum:
+    - Corporation
+    - NonProfit
+    - Cooperative
+    - Sole Proprietorship
+    type: string
+    x-enum-varnames:
+    - Corporation
+    - NonProfit
+    - Cooperative
+    - SoleProprietorship
+  handler.SignInRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for XMGO.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: XMGO API
+  version: "1.0"
+paths:
+  /api/companies:
+    post:
+      consumes:
+      - application/json
+      description: Create a new company with the provided details
+      parameters:
+      - description: Company details
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Company'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Company'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new company
+      tags:
+      - companies
+  /api/companies/{id}:
+    delete:
+      description: Delete a company by its ID
+      parameters:
+      - description: Company ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a company by ID
+      tags:
+      - companies
+    get:
+      description: Get details of a company by its ID
+      parameters:
+      - description: Company ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Company'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a company by ID
+      tags:
+      - companies
+    patch:
+      consumes:
+      - application/json
+      description: Update the details of an existing company by its ID
+      parameters:
+      - description: Company ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated company details
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Company'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Company'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update an existing company
+      tags:
+      - companies
+  /auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: Sign in to get a JWT token
+      parameters:
+      - description: Sign in request
+        in: body
+        name: SignInRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handler.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Sign in
+      tags:
+      - auth
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

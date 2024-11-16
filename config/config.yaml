@@ -1,0 +1,26 @@
+production: false
+server:
+  host: 0.0.0.0
+  port: 8080
+  ssl:
+    enabled: false
+    cert_file: ""
+    key_file: ""
+  timeout: 5
+
+database:
+  # for docker-run host should be db and port 5432
+  # for go run host should be 127.0.0.1 and port 25432
+  host: 127.0.0.1
+  port: 25432
+  user: xmgo
+  pass: xmgopass
+  name: xmgo_db
+
+jwt:
+  secret: secret-key
+
+kafka:
+  brokers:
+    - "localhost:9092"
+  topic: "company_events"
