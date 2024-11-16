@@ -80,4 +80,4 @@ The ```config/config.yaml``` file contains the following settings:
         - "localhost:9092"
       topic: "company_events"
 
-Ensure that the host and port settings for the database and Kafka are correctly configured based on whether you are running the service locally or in Docker.
+Ensure that the ```host``` and ```port``` settings for the database and Kafka are correctly configured based on whether you are running the service locally or in Docker.
